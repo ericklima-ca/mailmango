@@ -16,28 +16,29 @@ func sendMessageBroker() {
 	defer conn.Close()
 	ch, _ := conn.Channel()
 	defer ch.Close()
-	q, _ := ch.QueueDeclare(
-		"mail",
-		false,
-		false,
-		false,
-		false,
-		nil,
-	)
+	// q, _ := ch.QueueDeclare(
+	// 	"mail",       // name
+	// 	true,         // durable
+	// 	false,        // delete when unused
+	// 	false,        // exclusive
+	// 	false,        // no-wait
+	// 	nil,          // arguments
+	// )
 	b, _ := json.Marshal(map[string]interface{}{
-		"to":      "example@email.com", // change this to test
+		"to":      "[example@email.com]", // change this to test
 		"subject": "Email confirmation!",
 		"body": `<p>Please confirm your email by clicking the link below:</p>
 				<p>https://example.com/</p>`,
 	})
 	ch.Publish(
 		"",
-		q.Name,
+		"mail",
 		false,
 		false,
 		amqp.Publishing{
-			ContentType: "application/json",
-			Body:        b,
+			DeliveryMode: amqp.Persistent,
+			ContentType:  "application/json",
+			Body:         b,
 		},
 	)
 }
