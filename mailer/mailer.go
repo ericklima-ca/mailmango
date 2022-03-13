@@ -15,9 +15,9 @@ type MailerService struct {
 	Passcode string
 }
 type message struct {
-	To      string `json:"to,omitempty"`
-	Subject string `json:"subject,omitempty"`
-	Body    string `json:"body,omitempty"`
+	To      []string `json:"to,omitempty"`
+	Subject string   `json:"subject,omitempty"`
+	Body    string   `json:"body,omitempty"`
 }
 
 const (
@@ -32,9 +32,9 @@ func (ms *MailerService) SendMail(jsonBody []byte) {
 	}
 
 	m := gomail.NewMessage()
-	
+
 	m.SetHeader("From", ms.User)
-	m.SetHeader("To", msg.To)
+	m.SetHeader("To", msg.To...)
 	m.SetHeader("Subject", msg.Subject)
 
 	m.SetBody("text/html", msg.Body)
