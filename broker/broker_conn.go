@@ -26,24 +26,30 @@ func (wmq *WorkerMQ) StartConsume() {
 
 	q, err := ch.QueueDeclare(
 		wmq.QueueName, // name
-		false,         // durable
+		true,          // durable
 		false,         // delete when unused
 		false,         // exclusive
 		false,         // no-wait
 		nil,           // arguments
 	)
+	ch.Qos(
+		1,     // prefetch count
+		0,     // prefetch size
+		false, // global
+	)
+
 	logErr(err, "fail on declare queue")
 
 	msgs, err := ch.Consume(
 		q.Name, // queue
 		"",     // consumer
-		true,   // auto-ack
+		false,  // auto-ack
 		false,  // exclusive
 		false,  // no-local
 		false,  // no-wait
 		nil,    // args
 	)
-	logErr(err, "error on consume")
+	logErr(err, "fail on register consumer")
 
 	done := make(chan bool)
 
@@ -52,6 +58,7 @@ func (wmq *WorkerMQ) StartConsume() {
 			// TODO: implement validators
 			wmq.Mailer.SendMail(d.Body)
 			log.Printf("Mail sent to: %s", d.Body)
+			d.Ack(false)
 		}
 	}()
 	log.Printf("[*] Waiting for messages. To exit press CTRL+C")
