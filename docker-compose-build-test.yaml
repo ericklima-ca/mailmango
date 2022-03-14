@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  rabbitmq:
+    container_name: rabbitmq-container
+    hostname: rabbitmq
+    command: sh -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server"
+    image: rabbitmq:3-management-alpine
+    ports:
+      - 5672
+      - 15672
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: root
+    networks:
+      - mailmango-net
+    healthcheck:
+      test: "ls ~"
+      timeout: 10s
+      interval: 10s
+      retries: 2
+      start_period: 10s
+
+  mailmango:
+    container_name: mailmango
+    build:
+      context: .
+    env_file:
+      - .env
+    networks:
+      - mailmango-net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+networks:
+  mailmango-net:
+    driver: bridge
