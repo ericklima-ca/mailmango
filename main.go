@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"os"
 
 	"github.com/ericklima-ca/mailmango/broker"
@@ -19,9 +18,7 @@ func main() {
 		EMAIL_PASS   = os.Getenv("EMAIL_PASS")
 		RABBITMQ_URL = os.Getenv("RABBITMQ_URL")
 	)
-
-	log.Printf("email: %s, pass: %s", EMAIL_ADDR, EMAIL_PASS)
-
+	
 	ms := mailer.MailerService{
 		HostPort: mailer.HOSTDEFAULT,
 		User:     EMAIL_ADDR,
