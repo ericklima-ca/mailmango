@@ -15,14 +15,10 @@ type MailerService struct {
 	Passcode string
 }
 type message struct {
-	To      string 	 `json:"to,omitempty"`
-	Subject string   `json:"subject,omitempty"`
-	Body    string   `json:"body,omitempty"`
+	To      string `json:"to,omitempty"`
+	Subject string `json:"subject,omitempty"`
+	Body    string `json:"body,omitempty"`
 }
-
-const (
-	HOSTDEFAULT = "smtp.gmail.com:465"
-)
 
 func (ms *MailerService) SendMail(jsonBody []byte) {
 	var msg message

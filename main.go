@@ -17,10 +17,11 @@ func main() {
 		EMAIL_ADDR   = os.Getenv("EMAIL_ADDR")
 		EMAIL_PASS   = os.Getenv("EMAIL_PASS")
 		RABBITMQ_URL = os.Getenv("RABBITMQ_URL")
+		HOST_SMTP    = os.Getenv("HOST_SMTP")
 	)
-	
+
 	ms := mailer.MailerService{
-		HostPort: mailer.HOSTDEFAULT,
+		HostPort: HOST_SMTP,
 		User:     EMAIL_ADDR,
 		Passcode: EMAIL_PASS,
 	}
