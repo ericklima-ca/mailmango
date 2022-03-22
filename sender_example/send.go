@@ -25,10 +25,10 @@ func sendMessageBroker() {
 	// 	nil,          // arguments
 	// )
 	b, _ := json.Marshal(map[string]interface{}{
-		"to":      "ericklima.ca@yahoo.com",
+		"to":      "test@email.com", // change for tests
 		"subject": "Email confirmation!",
-		"body": `<p>` + "Erick" + `Please confirm your email by clicking the link below:</p>
-				<p>https://` + "test.com" + `/api/auth/verify/signup/` + "14510" + `/` + "321sad65124e1298712313215!@e" + `</p>`,
+		"body": `<p>` + "Erick, " + `Please confirm your email by clicking the link below:</p>
+				<p> <a> https://` + "test.com" + `/api/auth/verify/signup/` + "14510" + `/` + "321sad65124e1298712313215!@e" + `</a></p>`,
 	})
 	ch.Publish(
 		"",
