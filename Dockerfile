@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
 
 FROM golang:1.17-alpine as builder
+LABEL maintainer="Erick Amorim <github.com/ericklima-ca>"
 ENV CGO_ENABLED=0
 WORKDIR /app
 COPY go.mod go.mod
